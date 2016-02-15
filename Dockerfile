@@ -8,7 +8,7 @@ ENV POSTGIS_VERSION=2.2.1 \
 
 RUN apk update && apk upgrade && \
 	apk add curl libxml2 json-c libxml2-dev json-c-dev alpine-sdk autoconf automake libtool \
-	git postgresql-dev postgresql-contrib libffi-dev musl-dev \
+	git postgresql-dev postgresql-contrib libffi-dev musl-dev libstdc++ \
 	zip jpeg-dev libpng-dev libjpeg-turbo-dev tiff-dev \
 	freetype-dev lcms2-dev libwebp-dev tcl-dev openjpeg-dev \
 	openssl-dev libxml2-dev libxslt-dev rsync bash openssh-client \

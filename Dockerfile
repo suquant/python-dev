@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:edge
 MAINTAINER George Kutsurua <g.kutsurua@gmail.com>
 
 ENV POSTGIS_VERSION=2.2.1 \
@@ -22,15 +22,14 @@ RUN mkdir -p /tmp/build && cd /tmp/build && \
     curl -o geos-${GEOS_VERSION}.tar.gz -sSL https://github.com/libgeos/libgeos/archive/${GEOS_VERSION}.tar.gz && \
     curl -o proj4-${PROJ4_VERSION}.tar.gz -sSL https://github.com/OSGeo/proj.4/archive/${PROJ4_VERSION}.tar.gz && \
     curl -o gdal-${GDAL_VERSION}.tar.gz -sSL http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz && \
-    export PATH=/usr/local/pgsql/bin/:$PATH && \
     tar xzf proj4-${PROJ4_VERSION}.tar.gz && \
     tar xzf geos-${GEOS_VERSION}.tar.gz && \
     tar xzf gdal-${GDAL_VERSION}.tar.gz && \
     tar xzf postgis-${POSTGIS_VERSION}.tar.gz && \
-    cd /tmp/build/proj.4* && ./configure --enable-silent-rules && make -s && make -s install && \
-    cd /tmp/build/libgeos* && ./autogen.sh && ./configure --enable-silent-rules CFLAGS="-D__sun -D__GNUC__"  CXXFLAGS="-D__GNUC___ -D__sun" && make -s && make -s install && \
-    cd /tmp/build/gdal* && ./configure --enable-silent-rules --with-static-proj4=/usr/local/lib && make -s && make -s install && \
-    cd /tmp/build/postgis* && ./autogen.sh && ./configure --enable-silent-rules --with-projdir=/usr/local && \
+    cd /tmp/build/proj.4* && ./configure --prefix=/usr --enable-silent-rules && make -s && make -s install && \
+    cd /tmp/build/libgeos* && ./autogen.sh && ./configure --prefix=/usr --enable-silent-rules CFLAGS="-D__sun -D__GNUC__"  CXXFLAGS="-D__GNUC___ -D__sun" && make -s && make -s install && \
+    cd /tmp/build/gdal* && ./configure --prefix=/usr --enable-silent-rules --with-static-proj4=/usr/lib && make -s && make -s install && \
+    cd /tmp/build/postgis* && ./autogen.sh && ./configure --prefix=/usr --enable-silent-rules --with-projdir=/usr && \
     cd /tmp/build/postgis* && \
     echo "PERL = /usr/bin/perl" >> extensions/postgis/Makefile && \
     echo "PERL = /usr/bin/perl" >> extensions/postgis_topology/Makefile && make -s && make -s install && \

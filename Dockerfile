@@ -12,7 +12,7 @@ RUN apk update && apk upgrade && \
 	zip jpeg-dev libpng-dev libjpeg-turbo-dev tiff-dev \
 	freetype-dev lcms2-dev libwebp-dev tcl-dev openjpeg-dev \
 	openssl-dev libxml2-dev libxslt-dev rsync bash openssh-client \
-	zlib-dev sudo perl imagemagick-dev python python-dev && \
+	zlib-dev sudo perl imagemagick-dev python python-dev nodejs-dev && \
 	curl -O -sSL https://bootstrap.pypa.io/get-pip.py && \
 	chmod +x ./get-pip.py && ./get-pip.py && \
 	pip install virtualenv pep8 pyflakes isort codecov

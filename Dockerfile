@@ -23,7 +23,7 @@ RUN echo "deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty
                     liblcms2-2 liblcms2-dev libwebp5 libwebp-dev tcl8.4-dev tcl8.4 imagemagick libmagick++-dev \
                     curl libjson-c2 libjson-c-dev openssl openssh-client rsync sudo perl make \
                     postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 postgresql-client-9.5 postgresql-plpython3-9.5 \
-                    postgresql-server-dev-9.5 build-essential python2.7-dev nginx &&\
+                    postgresql-server-dev-9.5 build-essential python2.7-dev nginx nodejs &&\
     curl -O -sSL https://bootstrap.pypa.io/get-pip.py &&\
     chmod +x ./get-pip.py &&\
     ./get-pip.py &&\

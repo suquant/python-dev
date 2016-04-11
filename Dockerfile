@@ -1,37 +1,30 @@
-FROM alpine:edge
+FROM ubuntu:trusty
 MAINTAINER George Kutsurua <g.kutsurua@gmail.com>
 
-ENV POSTGIS_VERSION=2.2.1 \
-    GEOS_VERSION=3.5.0 \
-    PROJ4_VERSION=4.9.2 \
-    GDAL_VERSION=2.0.2
+RUN apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install -y wget &&\
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&\
+    wget --quiet -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add - &&\
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DB82666C
 
-RUN apk update && apk upgrade && \
-	apk add curl libxml2 json-c libxml2-dev json-c-dev alpine-sdk autoconf automake libtool \
-	git postgresql-dev postgresql-contrib libffi-dev musl-dev libstdc++ \
-	zip jpeg-dev libpng-dev libjpeg-turbo-dev tiff-dev \
-	freetype-dev lcms2-dev libwebp-dev tcl-dev openjpeg-dev \
-	openssl-dev libxml2-dev libxslt-dev rsync bash openssh-client \
-	zlib-dev sudo perl imagemagick-dev python python-dev nodejs-dev && \
-	curl -O -sSL https://bootstrap.pypa.io/get-pip.py && \
-	chmod +x ./get-pip.py && ./get-pip.py && \
-	pip install virtualenv pep8 pyflakes isort codecov
-
-RUN mkdir -p /tmp/build && cd /tmp/build && \
-    curl -o postgis-${POSTGIS_VERSION}.tar.gz -sSL http://download.osgeo.org/postgis/source/postgis-${POSTGIS_VERSION}.tar.gz && \
-    curl -o geos-${GEOS_VERSION}.tar.gz -sSL https://github.com/libgeos/libgeos/archive/${GEOS_VERSION}.tar.gz && \
-    curl -o proj4-${PROJ4_VERSION}.tar.gz -sSL https://github.com/OSGeo/proj.4/archive/${PROJ4_VERSION}.tar.gz && \
-    curl -o gdal-${GDAL_VERSION}.tar.gz -sSL http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz && \
-    tar xzf proj4-${PROJ4_VERSION}.tar.gz && \
-    tar xzf geos-${GEOS_VERSION}.tar.gz && \
-    tar xzf gdal-${GDAL_VERSION}.tar.gz && \
-    tar xzf postgis-${POSTGIS_VERSION}.tar.gz && \
-    cd /tmp/build/proj.4* && ./configure --prefix=/usr --enable-silent-rules && make -s && make -s install && \
-    cd /tmp/build/libgeos* && ./autogen.sh && ./configure --prefix=/usr --enable-silent-rules CFLAGS="-D__sun -D__GNUC__"  CXXFLAGS="-D__GNUC___ -D__sun" && make -s && make -s install && \
-    cd /tmp/build/gdal* && ./configure --prefix=/usr --enable-silent-rules --with-static-proj4=/usr/lib && make -s && make -s install && \
-    cd /tmp/build/postgis* && ./autogen.sh && ./configure --prefix=/usr --enable-silent-rules --with-projdir=/usr && \
-    cd /tmp/build/postgis* && \
-    echo "PERL = /usr/bin/perl" >> extensions/postgis/Makefile && \
-    echo "PERL = /usr/bin/perl" >> extensions/postgis_topology/Makefile && make -s && make -s install && \
-    rm -rf /var/cache/apk/* && \
-    rm -rf /tmp/build
+RUN echo "deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty main" >> /etc/apt/sources.list &&\
+    echo "deb-src http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty main" >> /etc/apt/sources.list &&\
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list &&\
+    echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list &&\
+    echo "deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list &&\
+    curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash - &&\
+    apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install -y libpq5 libpq-dev libffi6 libffi-dev libxml2 libxml2-dev libbz2-1.0 libbz2-dev \
+                    libxslt1-dev libxslt1.1 libtool libstdc++6 libstdc++6-4.7-dev zlib1g zlib1g-dev \
+                    git-core unzip libjpeg8 libjpeg8-dev libjpeg-turbo-progs libopenjpeg2 libopenjpeg-dev \
+                    libpng12-0 libpng12-dev libtiff5 libtiff5-dev libfreetype6 libfreetype6-dev \
+                    liblcms2-2 liblcms2-dev libwebp5 libwebp-dev tcl8.4-dev tcl8.4 imagemagick libmagick++-dev \
+                    curl libjson-c2 libjson-c-dev openssl openssh-client rsync sudo perl make \
+                    postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 postgresql-client-9.5 postgresql-plpython3-9.5 \
+                    postgresql-server-dev-9.5 build-essential python2.7-dev nginx &&\
+    curl -O -sSL https://bootstrap.pypa.io/get-pip.py &&\
+    chmod +x ./get-pip.py &&\
+    ./get-pip.py &&\
+    pip install virtualenv pep8 pyflakes isort codecov

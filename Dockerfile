@@ -26,5 +26,4 @@ RUN echo "deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty
                     postgresql-server-dev-9.5 build-essential python2.7-dev nginx nodejs &&\
     curl -O -sSL https://bootstrap.pypa.io/get-pip.py &&\
     chmod +x ./get-pip.py &&\
-    ./get-pip.py &&\
-    pip install virtualenv pep8 pyflakes isort codecov
+    ./get-pip.py

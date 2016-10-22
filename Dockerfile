@@ -3,7 +3,7 @@ MAINTAINER George Kutsurua <g.kutsurua@gmail.com>
 
 RUN apt-get update &&\
     apt-get upgrade -y &&\
-    apt-get install -y wget &&\
+    apt-get install -y wget curl &&\
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&\
     wget --quiet -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add - &&\
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DB82666C
@@ -14,6 +14,7 @@ RUN echo "deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty
     echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list &&\
     echo "deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list &&\
     curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash - &&\
+    curl -sL https://packages.gitlab.com/install/repositories/runner/gitlab-ci-multi-runner/script.deb.sh | bash &&\
     apt-get update &&\
     apt-get upgrade -y &&\
     apt-get install -y libpq5 libpq-dev libffi6 libffi-dev libxml2 libxml2-dev libbz2-1.0 libbz2-dev \
@@ -23,7 +24,12 @@ RUN echo "deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty
                     liblcms2-2 liblcms2-dev libwebp5 libwebp-dev tcl8.4-dev tcl8.4 imagemagick libmagick++-dev \
                     curl libjson-c2 libjson-c-dev openssl openssh-client rsync sudo perl make \
                     postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 postgresql-client-9.5 postgresql-plpython3-9.5 \
-                    postgresql-server-dev-9.5 build-essential python2.7-dev nginx nodejs &&\
+                    postgresql-server-dev-9.5 build-essential python2.7-dev nginx nodejs gitlab-ci-multi-runner &&\
     curl -O -sSL https://bootstrap.pypa.io/get-pip.py &&\
     chmod +x ./get-pip.py &&\
     ./get-pip.py
+
+COPY requirements.txt /requirements.txt
+COPY gitlab-runner-helper /usr/bin/gitlab-runner-helper
+
+RUN pip install --upgrade -r /requirements.txt

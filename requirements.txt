@@ -1,0 +1,8 @@
+pip
+pep8
+setuptools
+virtualenv
+requests
+codecov
+selenium
+nose

@@ -9,7 +9,7 @@ RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/ap
                        libpng libpng-dev tiff tiff-dev freetype freetype-dev lcms2 lcms2-dev \
                        libwebp libwebp-dev tcl tcl-dev imagemagick imagemagick-dev imagemagick-c++ \
                        json-c json-c-dev jsoncpp jsoncpp-dev python python-dev musl musl-dev \
-                       postgis-dev@testing linux-headers gcc g++ \
+                       postgis-dev@testing linux-headers gcc g++ &&\
     wget -O - https://bootstrap.pypa.io/get-pip.py | python
 
 ENV LANG=en_US.utf8 \

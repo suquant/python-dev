@@ -14,7 +14,15 @@ RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/ap
 
 ENV LANG=en_US.utf8 \
     LC_ALL=en_US.utf8 \
-    LANGUAGE=en_US.utf8
+    LANGUAGE=en_US.utf8 \
+    KUBECTL_VERSION=v1.5.1 \
+    DOCKER_VERSION=1.11.2
+
+RUN curl -o docker-$DOCKER_VERSION.tgz https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION.tgz && \
+    tar -xzf docker-$DOCKER_VERSION.tgz -C /usr/bin --strip-components=1 && \
+    rm -rf docker-$DOCKER_VERSION.tgz && \
+    curl -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$KUBECTL_VERSION/bin/linux/amd64/kubectl && \
+    chmod +x /usr/bin/kubectl
 
 COPY requirements.txt /requirements.txt
 COPY gitlab-runner-helper /usr/bin/gitlab-runner-helper

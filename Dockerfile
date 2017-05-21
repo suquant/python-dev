@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.5
 MAINTAINER George Kutsurua <g.kutsurua@gmail.com>
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories &&\
@@ -8,10 +8,10 @@ RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/ap
                        libjpeg libjpeg-turbo libjpeg-turbo-dev openjpeg openjpeg-dev \
                        libpng libpng-dev tiff tiff-dev freetype freetype-dev lcms2 lcms2-dev \
                        libwebp libwebp-dev tcl tcl-dev imagemagick imagemagick-dev imagemagick-c++ \
-                       json-c json-c-dev jsoncpp jsoncpp-dev python python-dev musl musl-dev \
+                       json-c json-c-dev jsoncpp jsoncpp-dev python3 python3-dev musl musl-dev \
                        postgis-dev@testing postgis@testing linux-headers gcc g++ coreutils ca-certificates \
                        pcre-dev pcre libpcre32 &&\
-    wget -O - https://bootstrap.pypa.io/get-pip.py | python
+    wget -O - https://bootstrap.pypa.io/get-pip.py | python3
 
 ENV LANG=en_US.utf8 \
     LC_ALL=en_US.utf8 \

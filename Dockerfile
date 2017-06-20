@@ -17,7 +17,7 @@ ENV LANG=en_US.utf8 \
     LC_ALL=en_US.utf8 \
     LANGUAGE=en_US.utf8 \
     KUBECTL_VERSION=v1.5.3 \
-    DOCKER_VERSION=1.11.2 \
+    DOCKER_VERSION=1.13.1 \
     REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
 RUN curl -o docker-$DOCKER_VERSION.tgz https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION.tgz && \

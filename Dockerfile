@@ -16,7 +16,7 @@ RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/ap
 ENV LANG=en_US.utf8 \
     LC_ALL=en_US.utf8 \
     LANGUAGE=en_US.utf8 \
-    KUBECTL_VERSION=v1.5.3 \
+    KUBECTL_VERSION=v1.6.6 \
     DOCKER_VERSION=1.13.1 \
     REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
